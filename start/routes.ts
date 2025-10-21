@@ -65,3 +65,16 @@ router
   })
   .prefix('/api/admin/rate-limit')
   .use(middleware.auth())
+
+router
+  .group(() => {
+    router.get('/', '#controllers/dashboard_controller.index')
+    router.get('/measurements', '#controllers/dashboard_controller.measurements')
+    router.get('/payments', '#controllers/dashboard_controller.payments')
+    router.get('/subscriptions', '#controllers/dashboard_controller.subscriptions')
+    router.get('/profile', '#controllers/dashboard_controller.profile')
+    router.get('/settings', '#controllers/dashboard_controller.settings')
+    router.get('/logout', '#controllers/dashboard_controller.logout')
+  })
+  .prefix('/dashboard')
+  .use(middleware.auth())

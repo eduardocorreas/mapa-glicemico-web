@@ -1,0 +1,226 @@
+@component('layouts/dashboard', { title: 'Dashboard - Mapa Glicêmico' })
+
+  @slot('main')
+    {{-- Cabeçalho do Dashboard --}}
+    <div class="mb-8">
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-primary">
+          Dashboard
+        </h1>
+        <button
+          class="bg-black text-white px-6 py-3 rounded-lg flex items-center hover:bg-gray-800 transition-colors"
+        >
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+
+          </svg>
+          Nova Medição
+      </button>
+      </div>
+
+      {{-- Seletor de período --}}
+      <div class="mb-8">
+        <div class="flex items-center">
+          <span class="text-gray-600 mr-4">Período:</span>
+          <div class="flex space-x-2">
+            <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium">7 dias</button>
+            <button
+              class="bg-white text-gray-600 border border-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50"
+            >15 dias</button>
+            <button
+              class="bg-white text-gray-600 border border-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50"
+            >30 dias</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{-- Indicadores (KPIs) --}}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      {{-- Total de Medições --}}
+      <div class="bg-primary text-white p-6 rounded-lg">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center">
+            <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"
+              />
+
+            </svg>
+            <span class="text-sm font-medium">Total de Medições</span>
+          </div>
+        </div>
+        <div class="text-3xl font-bold">
+          0
+        </div>
+      </div>
+
+      {{-- Glicemia Média --}}
+      <div class="bg-primary text-white p-6 rounded-lg">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center">
+            <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fill-rule="evenodd"
+                d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                clip-rule="evenodd"
+              />
+
+            </svg>
+            <span class="text-sm font-medium">Glicemia Média</span>
+          </div>
+        </div>
+        <div class="text-3xl font-bold">
+          0 mg/dL
+        </div>
+      </div>
+
+      {{-- Medições em jejum --}}
+      <div class="bg-primary text-white p-6 rounded-lg">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center">
+            <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"
+              />
+
+            </svg>
+            <span class="text-sm font-medium">Medições em jejum</span>
+          </div>
+        </div>
+        <div class="text-3xl font-bold">
+          0
+        </div>
+      </div>
+
+      {{-- Última Medição --}}
+      <div class="bg-primary text-white p-6 rounded-lg">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center">
+            <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"
+              />
+
+            </svg>
+            <span class="text-sm font-medium">Última Medição</span>
+          </div>
+        </div>
+        <div class="text-3xl font-bold">
+          0 mg/dL
+        </div>
+      </div>
+    </div>
+
+    {{-- Conteúdo principal - Gráfico e Tabela --}}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      {{-- Gráfico de Evolução da Glicemia --}}
+      <div class="bg-white border border-gray-200 rounded-lg p-6">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-lg font-semibold text-gray-800">
+            Evolução da Glicemia
+          </h3>
+          <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"
+            />
+
+          </svg>
+        </div>
+
+        {{-- Placeholder para o gráfico --}}
+        <div class="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
+          <div class="text-center">
+            <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"
+              />
+
+            </svg>
+            <p class="text-gray-500">
+              Gráfico será implementado aqui
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {{-- Tabela de Medições Recentes --}}
+      <div class="bg-white border border-gray-200 rounded-lg p-6">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-lg font-semibold text-gray-800">
+            Medições Recentes
+          </h3>
+          <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"
+            />
+
+          </svg>
+        </div>
+
+        {{-- Cabeçalho da tabela --}}
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-gray-200">
+                <th class="text-left py-3 px-4 text-sm font-medium text-gray-600">
+                  <div class="flex items-center">
+                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                        clip-rule="evenodd"
+                      />
+
+                    </svg>
+                    Data
+                  </div>
+                </th>
+                <th class="text-left py-3 px-4 text-sm font-medium text-gray-600">
+                  <div class="flex items-center">
+                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        fill-rule="evenodd"
+                        d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                        clip-rule="evenodd"
+                      />
+
+                    </svg>
+                    Glicemia
+                  </div>
+                </th>
+                <th class="text-left py-3 px-4 text-sm font-medium text-gray-600">
+                  Referência
+                </th>
+                <th class="text-left py-3 px-4 text-sm font-medium text-gray-600">
+                  Jejum
+                </th>
+                <th class="text-left py-3 px-4 text-sm font-medium text-gray-600">
+                  Status
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="5" class="text-center py-12">
+                  <div class="text-gray-400">
+                    <svg class="w-12 h-12 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        fill-rule="evenodd"
+                        d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"
+                      />
+
+                    </svg>
+                    <p class="text-lg">
+                      Nenhuma medição encontrada
+                    </p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  @end
+@end
