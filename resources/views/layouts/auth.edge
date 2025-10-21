@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      {{ title }}
+    </title>
+
+    <link rel="preconnect" href="https://fonts.bunny.net" />
+    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700" rel="stylesheet" />
+
+    <script src="https://cdn.tailwindcss.com">
+
+    </script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: [ "Inter", "sans-serif" ]
+            },
+            colors: {
+              primary: {
+                DEFAULT: "#E74C3C",
+                light: "#F87171",
+                dark: "#DC2626"
+              }
+            }
+          }
+        }
+      };
+    </script>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+  </head>
+  <body class="min-h-screen bg-gray-50 font-sans">
+    <div class="min-h-screen flex">
+      {{-- Coluna esquerda - Branding e depoimento --}}
+      <div class="hidden lg:flex lg:w-2/5 bg-black flex-col justify-center px-12">
+        {{-- Logo --}}
+        <div class="mb-12">
+          <div class="flex items-center mb-4">
+            <div class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center mr-3">
+              <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </div>
+            <div>
+              <h1 class="text-2xl font-bold text-white">
+                MAPA
+              </h1>
+              <p class="text-white text-sm">
+                GLICÊMICO
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {{-- Depoimento --}}
+        <div class="max-w-md">
+          <div class="bg-white rounded-full w-16 h-16 flex items-center justify-center mb-6">
+            <div class="text-2xl">
+              👩‍💻
+            </div>
+          </div>
+          <blockquote class="text-white text-lg mb-4">
+            "Controlar minha glicemia nunca foi tão simples."
+          </blockquote>
+          <div class="text-white">
+            <p class="font-semibold">
+              Camilla Farias
+            </p>
+            <p class="text-sm text-gray-300">
+              Paciente com diabetes gestacional
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {{-- Coluna direita - Formulário --}}
+      <div class="w-full lg:w-3/5 flex items-center justify-center px-8 py-12">
+        <div class="w-full max-w-md">
+          {{{ await $slots.main() }}}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

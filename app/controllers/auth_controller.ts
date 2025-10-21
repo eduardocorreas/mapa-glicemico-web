@@ -8,6 +8,8 @@ import {
 } from '#validators/auth_validator'
 import hash from '@adonisjs/core/services/hash'
 import { randomBytes } from 'node:crypto'
+import EmailService from '#services/email_service'
+import { DateTime } from 'luxon'
 
 export default class AuthController {
   async login({ request, auth, response }: HttpContext) {
@@ -20,6 +22,9 @@ export default class AuthController {
           message: 'Credenciais inválidas',
         })
       }
+
+      console.log(user.password)
+      console.log(password)
 
       const isPasswordValid = await hash.verify(user.password, password)
       if (!isPasswordValid) {
@@ -60,7 +65,7 @@ export default class AuthController {
       const user = await User.create({
         name,
         email,
-        password: await hash.make(password),
+        password,
       })
 
       return response.status(201).json({
@@ -118,17 +123,32 @@ export default class AuthController {
 
       const user = await User.findBy('email', email)
       if (!user) {
+        // Por segurança, não revelamos se o email existe ou não
         return response.json({
           message: 'Se o email existir, você receberá instruções para redefinir sua senha',
         })
       }
 
+      // Gera um token de recuperação
       const resetToken = randomBytes(32).toString('hex')
+      const resetTokenExpiry = DateTime.now().plus({ hours: 1 }) // 1 hora
 
-      console.log(`Token de recuperação para ${email}: ${resetToken}`)
+      // Salva o token no banco de dados
+      user.resetToken = resetToken
+      user.resetTokenExpiry = resetTokenExpiry
+      await user.save()
+
+      // Envia o email de recuperação
+      const emailResult = await EmailService.sendPasswordResetEmail(user, resetToken)
+
+      if (!emailResult.success) {
+        console.error('Erro ao enviar email:', emailResult.error)
+        // Em caso de erro no envio do email, ainda retornamos sucesso por segurança
+      }
 
       return response.json({
         message: 'Se o email existir, você receberá instruções para redefinir sua senha',
+        // Em desenvolvimento, retorna o token para facilitar testes
         resetToken: process.env.NODE_ENV === 'development' ? resetToken : undefined,
       })
     } catch (error) {
@@ -141,29 +161,28 @@ export default class AuthController {
 
   async resetPassword({ request, response }: HttpContext) {
     try {
-      const { token } = await request.validateUsing(resetPasswordValidator)
+      const { token, password } = await request.validateUsing(resetPasswordValidator)
 
-      // TODO: Implementar verificação do token no banco de dados
-      // Por enquanto, vamos simular a validação
-      if (token.length < 10) {
+      // Busca o usuário pelo token
+      const user = await User.findBy('resetToken', token)
+      if (!user) {
         return response.status(400).json({
           message: 'Token inválido ou expirado',
         })
       }
 
-      // TODO: Buscar usuário pelo token e verificar se não expirou
-      // const user = await User.findBy('resetToken', token)
-      // if (!user || user.resetTokenExpiry < new Date()) {
-      //   return response.status(400).json({
-      //     message: 'Token inválido ou expirado'
-      //   })
-      // }
+      // Verifica se o token não expirou
+      if (!user.resetTokenExpiry || user.resetTokenExpiry < DateTime.now()) {
+        return response.status(400).json({
+          message: 'Token inválido ou expirado',
+        })
+      }
 
-      // TODO: Atualizar senha e limpar token
-      // user.password = await hash.make(password)
-      // user.resetToken = null
-      // user.resetTokenExpiry = null
-      // await user.save()
+      // Atualiza a senha e limpa o token
+      user.password = await hash.make(password)
+      user.resetToken = null
+      user.resetTokenExpiry = null
+      await user.save()
 
       return response.json({
         message: 'Senha redefinida com sucesso',

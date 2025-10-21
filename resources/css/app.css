@@ -1,3 +1,9 @@
+@import 'tailwindcss';
+
+@import 'flowbite/src/themes/default';
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite";
+
 * {
   margin: 0;
   padding: 0;

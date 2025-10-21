@@ -27,6 +27,12 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column({ serializeAs: null })
   declare password: string
 
+  @column({ serializeAs: null })
+  declare resetToken: string | null
+
+  @column.dateTime({ serializeAs: null })
+  declare resetTokenExpiry: DateTime | null
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
@@ -41,4 +47,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @hasMany(() => Measurement)
   declare measurements: HasMany<typeof Measurement>
+
+  @hasMany(() => Payment)
+  declare payments: HasMany<typeof Payment>
 }
